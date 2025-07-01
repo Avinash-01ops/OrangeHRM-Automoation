@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"  # For Node.js/JavaScript projects
+    directory: "/"            # Looks for package.json in root
+    schedule:
+      interval: "weekly"      # Checks every Monday
+      time: "09:00"          # Time of day (UTC)
+    reviewers:                # Optional
+      - "your-github-username"
+    assignees:               # Optional
+      - "your-team-member"
+    commit-message:
+      prefix: "chore"        # Conventional commits style
+      prefix-development: "chore(deps-dev)"
+    open-pull-requests-limit: 5  # Prevents PR spam
+
+  # Add this if you use GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
