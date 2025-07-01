@@ -1,44 +1,32 @@
 name: Playwright Tests
-on: [push, pull_request]  # Runs on every push/PR
+on: [push, pull_request]
 
 jobs:
   test:
-    # GitHub-hosted runner
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to latest version
 
       - name: Install Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4  # Updated to latest version
         with:
-          node-version: 20  # Playwright supports Node 18+, and Node.js 20 offers improved performance and compatibility with modern features.
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          node-version: 20
+          cache: 'npm'  # Built-in caching
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
+        run: npm ci  # More reliable than npm install for CI
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: |
+          npx playwright install --with-deps
+          npx playwright install chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ./browsers  # Custom path to avoid permission issues
 
       - name: Run Playwright tests
         run: npx playwright test
         env:
-          # If your tests need credentials, store them in GitHub Secrets
+          CI: true  # Important for Playwright CI optimizations
           LOGIN_USER: ${{ secrets.LOGIN_USER }}
           LOGIN_PASS: ${{ secrets.LOGIN_PASS }}
