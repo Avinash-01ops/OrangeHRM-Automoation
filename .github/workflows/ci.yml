@@ -17,12 +17,11 @@ jobs:
       - name: Install dependencies
         run: npm ci  # More reliable than npm install for CI
 
-      - name: Install Playwright browsers
-        run: |
-          npx playwright install --with-deps
-          npx playwright install chromium
-        env:
-          PLAYWRIGHT_BROWSERS_PATH: ./browsers  # Custom path to avoid permission issues
+      - name: Check Playwright version
+        run: npx playwright --version
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: Run Playwright tests
         run: npx playwright test
