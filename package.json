@@ -2,9 +2,7 @@
   "name": "orangehrm-automoation",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -13,6 +11,7 @@
     "playwright": "^1.53.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.2"
+    "@playwright/test": "^1.53.2",
+    "@types/node": "^24.0.8"
   }
 }
