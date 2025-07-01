@@ -1,0 +1,27 @@
+name: Playwright Tests
+on: [push, pull_request]  # Runs on every push/PR
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # GitHub-hosted runner
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20  # Playwright supports Node 18+
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          # If your tests need credentials, store them in GitHub Secrets
+          LOGIN_USER: ${{ secrets.LOGIN_USER }}
+          LOGIN_PASS: ${{ secrets.LOGIN_PASS }}
